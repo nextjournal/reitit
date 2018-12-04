@@ -1,3 +1,12 @@
+## Unreleased
+
+* Frontend controllers:
+    * Controller `:params` function has been deprecated
+    * Controller `:identity` function works the same as `:params`
+    * New `:parameters` option can be used to declare which parameters
+    controller is interested in, as data, which should cover most
+    use cases: `{:start start-fn, :parameters {:path [:foo-id]}}`
+
 ## 0.2.9 (2018-11-21)
 
 ## `reitit-spec`
