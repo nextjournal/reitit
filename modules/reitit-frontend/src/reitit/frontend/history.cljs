@@ -68,6 +68,7 @@
               (let [uri (.parse Uri (.-href el))]
                 (when (and (or (and (not (.hasScheme uri)) (not (.hasDomain uri)))
                                (= current-domain (.getDomain uri)))
+                           (not (.closest el "[contenteditable]"))
                            (not (.-altKey e))
                            (not (.-ctrlKey e))
                            (not (.-metaKey e))
