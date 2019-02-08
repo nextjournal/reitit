@@ -2,7 +2,8 @@
   (:require [reitit.core :as reitit]
             [reitit.core :as r]
             [reitit.frontend :as rf]
-            [goog.events :as gevents])
+            [goog.events :as gevents]
+            [goog.dom :as gdom])
   (:import goog.Uri))
 
 (defprotocol History
@@ -68,7 +69,6 @@
               (let [uri (.parse Uri (.-href el))]
                 (when (and (or (and (not (.hasScheme uri)) (not (.hasDomain uri)))
                                (= current-domain (.getDomain uri)))
-                           (not (.closest el "[contenteditable]"))
                            (not (.-altKey e))
                            (not (.-ctrlKey e))
                            (not (.-metaKey e))
@@ -76,7 +76,8 @@
                            (not (contains? #{"_blank" "self"} (.getAttribute el "target")))
                            ;; Left button
                            (= 0 (.-button e))
-                           (reitit/match-by-path router (.getPath uri)))
+                           (reitit/match-by-path router (.getPath uri))
+                           (not (gdom/getAncestor el (fn [node] (.isContentEditable node)))))
                   (.preventDefault e)
                   (let [path (str (.getPath uri)
                                   (if (seq (.getQuery uri))
